@@ -1,80 +1,69 @@
 <?php
 
-namespace security 
-{
+namespace security {
 
- class CSRF 
- {
+ class CSRF {
   
   private $_token;
   private $_tokens;
   private $_time =  3600;
 
-  public function __construct() 
-  {
+  public function __construct() {
 	
-	if(!isset($_SESSION['security_csrf'])) 
-	{
-	 
-	 $_SESSION['security_csrf'] = [];
-	}
+    if(!isset($_SESSION['security_csrf'])) {
+     
+     $_SESSION['security_csrf'] = [];
+    }
   }
   
   public function debug() {
 	
-	print_r($this->_tokens);
-	print_r($this->_time);
+    print_r($this->_tokens);
+    print_r($this->_time);
   }
   
-  public function set_time($time) 
-  {
+  public function set_time($time) {
     
-	/*
+    /*
     * @variables: Time is in seconds;
     * @by: Olivier Beg
     * @Desc: Set the time until the CSRF token expires.
     */
 	
-    if(is_int($time) || is_numeric($time)) 
-	{
+    if(is_int($time) || is_numeric($time)) {
 		
-		$this->_time = $time;
-		
-		return true;
+      $this->_time = $time;
+      
+      return true;
     }
 
    return false;
   }
   
-  public function delete($token) 
-  {
+  public function delete($token) {
 	
-   if($this->verify($token)) 
-   {
-	
+   if($this->verify($token)) {
+    
     array_diff($_SESSION['security_csrf'], [ $token ]);
-	
-	$clean = [];
-	
-	foreach($_SESSION['security_csrf'] AS $token => $time) 
-	{
-		
-		if($time >= time()) 
-		{
-			$clean[] = $token;
-		}
-	}
-	
-	array_diff($_SESSION['security_csrf'], [ $clean ]);
-	
-	return true;
+    
+    $clean = [];
+      
+     foreach($_SESSION['security_csrf'] AS $token => $time) {
+        
+      if($time >= time()) {
+        $clean[] = $token;
+      }
+    }
+    
+    array_diff($_SESSION['security_csrf'], [ $clean ]);
+    
+    return true;
    } else {
     return false;
    }
   }
   
-  public function set($time = true) 
-  {
+  public function set($time = true) {
   
    /*
    * @By: Olivier Beg
@@ -86,8 +75,7 @@ namespace security
    return $_SESSION['security_csrf'][$this->_token];
   }
   
-  public function verify($token) 
-  {
+  public function verify($token) {
 	
    return isset($_SESSION['security_csrf'][$token]);
   }
