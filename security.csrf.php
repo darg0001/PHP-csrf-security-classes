@@ -20,6 +20,12 @@ namespace security
 	}
   }
   
+  public function debug() {
+	
+	print_r($this->_tokens);
+	print_r($this->_time);
+  }
+  
   public function set_time($time) 
   {
     
@@ -67,7 +73,7 @@ namespace security
    }
   }
   
-  public function create($time = true) 
+  public function set($time = true) 
   {
   
    /*
