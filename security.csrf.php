@@ -12,7 +12,7 @@ namespace security {
 	
     if(!isset($_SESSION['security_csrf'])) {
      
-     $_SESSION['security_csrf'] = [];
+     $_SESSION['security_csrf'] = [] || array();
     }
   }
   
