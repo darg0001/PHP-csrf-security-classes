@@ -2,9 +2,11 @@
 namespace security {
 
  class CSRF {
-   
+  
+  private $_token;
   private $_tokens = [];
   private $_time = 3600;
+
   
   public function set_time($time) {
     
@@ -24,16 +26,39 @@ namespace security {
    return false;
   }
   
-  public function create() {
+  public function delete($token) {
+	
+   if($this->verify($token)) {
+	
+    array_diff($this->_tokens, [ $token ]);
+	
+	$clean = [];
+	
+	foreach($this->_tokens AS $token => $time) {
+		
+		if($time >= time()) {
+			$clean[] = $token;
+		}
+	}
+	
+	array_diff($this->_tokens, [ $clean ]);
+	
+	return true;
+   } else {
+    return false;
+   }
+  }
+  
+  public function create($time = true) {
   
    /*
    * @By: Olivier Beg
-   * @Desc: Generate a token to verify that the POST/GET request is legit.
+   * @Desc: Generates a token to verify that the POST/GET request is legit and returns the last created token.
    */
-	
-   $this->_tokens[sha1(mt_rand() . rand() . md5($_SERVER['REMOTE_ADDR']))] = (time() + $this->_time);
+   $this->_token = sha1(mt_rand() . rand() . md5($_SERVER['REMOTE_ADDR']));
+   $this->_tokens[$this->_token] = (time() + ($time ? $this->_time : (int) $time));
    
-   return end($this->_tokens);
+   return $this->_tokens[$this->_token];
   }
   
   public function verify($token) {
