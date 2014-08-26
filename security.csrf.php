@@ -23,12 +23,7 @@ namespace security {
   }
   
   public function set_time($time) {
-    
-    /*
-    * @variables: Time is in seconds;
-    * @by: Olivier Beg
-    * @Desc: Set the time until the CSRF token expires.
-    */
+
 	
     if(is_int($time) || is_numeric($time)) {
 		
@@ -64,12 +59,8 @@ namespace security {
   }
   
   public function set($time = true) {
-  
-   /*
-   * @By: Olivier Beg
-   * @Desc: Generates a token to verify that the POST/GET request is legit and returns the last created token.
-   */
-   $this->_token = sha1(mt_rand() . rand() . md5($_SERVER['REMOTE_ADDR']));
+
+   $this->_token = sha1(mt_rand() . rand());
    $_SESSION['security_csrf'][$this->_token] = (time() + ($time ? $this->_time : (int) $time));
    
    return $_SESSION['security_csrf'][$this->_token];
