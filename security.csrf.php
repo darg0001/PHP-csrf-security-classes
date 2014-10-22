@@ -5,11 +5,9 @@ namespace security {
  class CSRF {
   
   private $_token;
-  private $_time =  3600;
+  private $_time =  3;
 
   public function __construct() {
-    
-    print_r($_SESSION['security_csrf']);
     
     if(!isset($_SESSION['security_csrf'])) {
      
@@ -19,8 +17,7 @@ namespace security {
   
   public function debug() {
 	
-    print_r($_SESSION['security_csrf']);
-    print_r($this->_time);
+    echo json_encode($_SESSION['security_csrf'], JSON_PRETTY_PRINT);
   }
   
   public function set_time($time) {
@@ -38,28 +35,31 @@ namespace security {
   
   public function delete($token) {
 	
+   $this->deleteExpiredTokens();
+  
    if($this->get($token)) {
     
-    unset($_SESSION['security_csrf'][$token]);
-    
-    $clean = [];
-      
-     foreach($_SESSION['security_csrf'] AS $token => $time) {
-        
-      if($time >= time()) {
-        unset($_SESSION['security_csrf'][$token]);
-      }
-    }
+     unset($_SESSION['security_csrf'][$token]);
 
     return true;
-   } else {
-    return false;
+   }
+   
+   return false;
+   
+  }
+  
+  public function deleteExpiredTokens() {
+  
+   foreach($_SESSION['security_csrf'] AS $token => $time) {  
+    if(time() >= $time) {
+      unset($_SESSION['security_csrf'][$token]);
+    }
    }
   }
   
-  public function set($time = true) {
+  public function set($time = true, $multiplier = 3600) {
 
-   $_SESSION['security_csrf'][sha1(mt_rand() . rand())] = (time() + ($time ? $this->_time : $time));
+   $_SESSION['security_csrf'][sha1(mt_rand() . rand())] = (time() + (($time ? $this->_time : $time) * $multiplier));
    
   }
   
