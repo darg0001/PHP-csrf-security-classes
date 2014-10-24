@@ -58,8 +58,11 @@ namespace security {
   }
   
   public function set($time = true, $multiplier = 3600) {
-
-   $_SESSION['security_csrf'][sha1(mt_rand() . rand())] = (time() + (($time ? $this->_time : $time) * $multiplier));
+   $key = sha1(mt_rand() . rand());
+   $value = (time() + (($time ? $this->_time : $time) * $multiplier));
+   
+   $_SESSION['security_csrf'][$key] = $value;
+   return $key;
    
   }
   
