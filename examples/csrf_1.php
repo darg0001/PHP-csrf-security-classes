@@ -7,7 +7,7 @@ session_start();
 require_once '../security.csrf.php';
 
 $security = new \security\CSRF;
-$security->set(3, /* multiplier */, 3600);
+$security->set(3, /* multiplier */ 3600);
 
 if(isset($_GET['token'])) {
   if($security->delete($_GET['token'])) {  

@@ -9,6 +9,8 @@ namespace security {
 
   public function __construct() {
     
+    $this->deleteExpiredTokens();
+    
     if(!isset($_SESSION['security']['csrf'])) {
      
      $_SESSION['security']['csrf'] = [];
@@ -67,16 +69,15 @@ namespace security {
   }
   
   public function get($token) {
-	
+   
+   $this->deleteExpiredTokens();
+   
    return isset($_SESSION['security']['csrf'][$token]);
   }
   
   public function last() {
     
-    return (isset(key(array_slice($_SESSION['security']['csrf'], -1, 1, true))) ? 
-     key(array_slice($_SESSION['security']['csrf'], -1, 1, true)) : 
-     false
-    );
+    return end($_SESSION['security']['csrf']);
   }
  }
 }
