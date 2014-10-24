@@ -40,6 +40,12 @@ $token = $security->set(3, /* multiplier */, 3600);
 
 $security->delete($token);
 ```
+###Debug
+```php
+<?php
+$security = new \security\CSRF;
+$security->debug();
+```
 
 
 ###preview code
