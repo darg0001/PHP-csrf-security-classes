@@ -41,3 +41,25 @@ $token = $security->set(3, /* multiplier */, 3600);
 
 $security->delete($token);
 ```
+
+
+###preview code
+```
+<?php
+session_start();
+
+require_once '../security.csrf.php';
+
+$security = new \security\CSRF;
+$token = $security->set(3, 3600);
+
+if(isset($_POST['token'])) {
+  
+  if($security->get($token)) {
+    $security->delete($token);
+    // The token is valid so we can remove the token now because it shouldn't be used again.
+  } else {
+    // Invalid token.
+  }
+}
+```
