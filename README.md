@@ -4,7 +4,6 @@
 This is a lightweight security class that protects users from CSRF attacks. it works with sessions but I'm considering to use files in a later version.
 
 #Documentation
-============
 
 ###Create a token.
 ```
@@ -44,8 +43,7 @@ $security->delete($token);
 
 
 ###preview code
-```
-<?php
+```<?php
 session_start();
 
 require_once '../security.csrf.php';
