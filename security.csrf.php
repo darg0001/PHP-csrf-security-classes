@@ -70,5 +70,10 @@ namespace security {
 	
    return isset($_SESSION['security_csrf'][$token]);
   }
+  
+  public function last() {
+    
+    return key(array_slice($_SESSION['security_csrf'], -1, 1, true));
+  }
  }
 }
