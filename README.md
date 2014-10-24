@@ -43,7 +43,8 @@ $security->delete($token);
 
 
 ###preview code
-```<?php
+```php
+<?php
 session_start();
 
 require_once '../security.csrf.php';
