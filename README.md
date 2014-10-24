@@ -1,9 +1,32 @@
-HACK-Security
+#CSRF security class
 ============
 
-HACK security classes to avoid vulnerabilities and secure yourself. HACK is a programming language for HHVM powered by Facebook.
+This is a lightweight security class that protects users from CSRF attacks. it works with sessions but I'm considering to use files in a later version.
 
-PROTOTYPE
-=========
+#Documentation
+============
 
-This is a prototype and does not work as expected yet. Please. don't use this in production.
+##Create a token.
+```
+<?php
+$security = new \security\CSRF;
+$security->set(3, /* multiplier */, 3600); //3 * 3600 = 3 hours.
+```
+
+##Get a token.
+```
+<?php
+$security = new \security\CSRF;
+$token = $security->set(3, /* multiplier */, 3600); //3 * 3600 = 3 hours.
+
+echo $token;
+```
+
+##Delete a token.
+```
+<?php
+$security = new \security\CSRF;
+$token = $security->set(3, /* multiplier */, 3600); //3 * 3600 = 3 hours.
+
+$security->delete($token);
+```
