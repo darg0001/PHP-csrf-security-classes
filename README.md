@@ -17,16 +17,27 @@ $security->set(3, /* multiplier */, 3600); //3 * 3600 = 3 hours.
 ```
 <?php
 $security = new \security\CSRF;
-$token = $security->set(3, /* multiplier */, 3600); //3 * 3600 = 3 hours.
+$token = $security->set(3, 3600);
 
 echo $token;
 ```
+
+
+###Get the last created token.
+```
+<?php
+$security = new \security\CSRF;
+$token = $security->last();
+
+echo $token;
+```
+
 
 ###Delete a token.
 ```
 <?php
 $security = new \security\CSRF;
-$token = $security->set(3, /* multiplier */, 3600); //3 * 3600 = 3 hours.
+$token = $security->set(3, /* multiplier */, 3600);
 
 $security->delete($token);
 ```

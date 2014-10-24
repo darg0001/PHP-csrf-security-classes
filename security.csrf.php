@@ -9,15 +9,15 @@ namespace security {
 
   public function __construct() {
     
-    if(!isset($_SESSION['security_csrf'])) {
+    if(!isset($_SESSION['security']['csrf'])) {
      
-     $_SESSION['security_csrf'] = [];
+     $_SESSION['security']['csrf'] = [];
     }
   }
   
   public function debug() {
 	
-    echo json_encode($_SESSION['security_csrf'], JSON_PRETTY_PRINT);
+    echo json_encode($_SESSION['security']['csrf'], JSON_PRETTY_PRINT);
   }
   
   public function set_time($time) {
@@ -39,7 +39,7 @@ namespace security {
   
    if($this->get($token)) {
     
-     unset($_SESSION['security_csrf'][$token]);
+     unset($_SESSION['security']['csrf'][$token]);
 
     return true;
    }
@@ -50,9 +50,9 @@ namespace security {
   
   public function deleteExpiredTokens() {
   
-   foreach($_SESSION['security_csrf'] AS $token => $time) {  
+   foreach($_SESSION['security']['csrf'] AS $token => $time) {  
     if(time() >= $time) {
-      unset($_SESSION['security_csrf'][$token]);
+      unset($_SESSION['security']['csrf'][$token]);
     }
    }
   }
@@ -61,19 +61,22 @@ namespace security {
    $key = sha1(mt_rand() . rand());
    $value = (time() + (($time ? $this->_time : $time) * $multiplier));
    
-   $_SESSION['security_csrf'][$key] = $value;
+   $_SESSION['security']['csrf'][$key] = $value;
    return $key;
    
   }
   
   public function get($token) {
 	
-   return isset($_SESSION['security_csrf'][$token]);
+   return isset($_SESSION['security']['csrf'][$token]);
   }
   
   public function last() {
     
-    return key(array_slice($_SESSION['security_csrf'], -1, 1, true));
+    return (isset(key(array_slice($_SESSION['security']['csrf'], -1, 1, true))) ? 
+     key(array_slice($_SESSION['security']['csrf'], -1, 1, true)) : 
+     false
+    );
   }
  }
 }
