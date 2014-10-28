@@ -3,10 +3,18 @@
 namespace security {
 
  class CSRF {
-  
-  private $_token;
-  private $_time =  3;
 
+  /*
+   * Contains the hours till the token expires.
+   * @var int
+   */
+  private $_time =  3;
+  
+  /*
+   * Cleans the expired tokens and creates the CSRF session if it doesn't exist.
+   * @return void
+   */
+   
   public function __construct() {
     
     $this->deleteExpiredTokens();
@@ -17,14 +25,25 @@ namespace security {
     }
   }
   
+  /*
+   * Prints the json string with all the sessions.
+   * @return void
+   */
+     
   public function debug() {
 	
     echo json_encode($_SESSION['security']['csrf'], JSON_PRETTY_PRINT);
   }
+
+  
+  /*
+   * Sets the time in hours till the token expires..
+   * @return boolean
+   */
+   
   
   public function set_time($time) {
 
-	
     if(is_int($time) || is_numeric($time)) {
 		
       $this->_time = $time;
@@ -34,6 +53,13 @@ namespace security {
 
    return false;
   }
+
+  
+  /*
+   * Removes the session if it exists and returns true or false.
+   * @return boolean
+   */
+   
   
   public function delete($token) {
 	
@@ -50,6 +76,11 @@ namespace security {
    
   }
   
+  /*
+   * Walks through all the sessions to check if they are expired.
+   * @return void
+   */
+   
   public function deleteExpiredTokens() {
   
    foreach($_SESSION['security']['csrf'] AS $token => $time) {  
@@ -59,6 +90,12 @@ namespace security {
    }
   }
   
+  
+  /*
+   * Creates the session token.
+   * @return string
+   */
+  
   public function set($time = true, $multiplier = 3600) {
    $key = sha1(mt_rand() . rand());
    $value = (time() + (($time ? $this->_time : $time) * $multiplier));
@@ -67,6 +104,13 @@ namespace security {
    return $key;
    
   }
+
+  
+  /*
+   * Checks if a session exists and returns true or false.
+   * @return boolean
+   */
+   
   
   public function get($token) {
    
@@ -75,6 +119,11 @@ namespace security {
    return isset($_SESSION['security']['csrf'][$token]);
   }
   
+  /*
+   * returns the last key in the session array.
+   * @return string
+   */
+     
   public function last() {
     
     return end($_SESSION['security']['csrf']);

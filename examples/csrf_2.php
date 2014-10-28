@@ -10,11 +10,8 @@ $token = $security->set(3, 3600);
 if(isset($_POST['token'])) {
   if($security->get($_POST['token'])) {
     
-    $security->delete($_POST['token']);
-    
+    $security->delete($_POST['token']); 
     echo 'removed.';
-  } else {
-    echo 'not removed, the token doesn\'t exist or is expired.';
   }
 }
 ?>
