@@ -44,7 +44,7 @@ namespace security {
   
   public function set_time($time) {
 
-    if(is_int($time) || is_numeric($time)) {
+    if(is_int($time) && is_numeric($time)) {
 		
       $this->_time = $time;
       
