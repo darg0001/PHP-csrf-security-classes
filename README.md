@@ -9,7 +9,7 @@ This is a lightweight security class that protects users from CSRF attacks. it w
 ```php
 <?php
 $security = new \security\CSRF;
-$security->set(3, /* multiplier */, 3600); //3 * 3600 = 3 hours.
+$security->set(3, 3600); //3 * 3600 = 3 hours.
 ```
 
 ###Get a token.
@@ -36,7 +36,7 @@ echo $token;
 ```php
 <?php
 $security = new \security\CSRF;
-$token = $security->set(3, /* multiplier */, 3600);
+$token = $security->set(3, 3600);
 
 $security->delete($token);
 ```
